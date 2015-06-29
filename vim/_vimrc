@@ -47,6 +47,11 @@ NeoBundle 'tpope/vim-fugitive'
 " ファイルをtree表示してくれる
 NeoBundle 'scrooloose/nerdtree'
 
+" markdown向けプラグイン
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+NeoBundle 'tyru/open-browser.vim'
+
 "NeoBundle追加はここまで------------------------------------------------------------
 
 " Required:
@@ -128,6 +133,10 @@ highlight LineNr term=underline cterm=underline ctermfg=blue ctermbg=black
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
 let g:indent_guides_enable_on_vim_startup = 1
 
+" syntax --------------------------------------
+au BufRead,BufNewFile *.md set filetype=markdown
+" End syntax ----------------------------------
+
 " mapping -------------------------------------
 " バッファ一覧
 noremap <C-P> :Unite buffer<CR>
@@ -147,3 +156,4 @@ syntax enable
 set background=dark
 colorscheme solarized
 "End color scheme------------------------------
+
