@@ -52,6 +52,15 @@ NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'kannokanno/previm'
 NeoBundle 'tyru/open-browser.vim'
 
+" nyan-modoki
+NeoBundle 'drillbits/nyan-modoki.vim'
+
+" syntastic
+NeoBundle 'scrooloose/syntastic'
+
+" autoclose
+NeoBundle 'Townk/vim-autoclose'
+
 "NeoBundle追加はここまで------------------------------------------------------------
 
 " Required:
@@ -73,15 +82,9 @@ NeoBundleCheck
 let g:unite_enable_start_insert=1
 """"""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" 自動的に閉じ括弧を入力
-""""""""""""""""""""""""""""""
-imap { {}<LEFT>
-imap [ []<LEFT>
-imap ( ()<LEFT>
-""""""""""""""""""""""""""""""
 " title表示
 set title
+
 " 行数表示
 set ruler
 set laststatus=2
@@ -125,7 +128,12 @@ syntax on
 autocmd QuickFixCmdPost *grep* cwindow
 
 " ステータス行に現在のgitブランチを表示する
-set statusline+=%{fugitive#statusline()}
+set statusline+=%{fugitive#statusline()} 
+
+" nyan-modoki
+set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
+let g:nyan_modoki_select_cat_face_number = 2
+let g:nayn_modoki_animation_enabled= 1
 
 " 行番号の色
 highlight LineNr term=underline cterm=underline ctermfg=blue ctermbg=black
@@ -133,9 +141,10 @@ highlight LineNr term=underline cterm=underline ctermfg=blue ctermbg=black
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
 let g:indent_guides_enable_on_vim_startup = 1
 
-" syntax --------------------------------------
+" PrevimOpen ----------------------------------
 au BufRead,BufNewFile *.md set filetype=markdown
-" End syntax ----------------------------------
+let g:vim_markdown_folding_disabled=1
+" End PrevimOpen ------------------------------
 
 " mapping -------------------------------------
 " バッファ一覧
@@ -149,6 +158,10 @@ noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 
 " NERDTreeを<C-e>で開きたい、閉じたい
 noremap <C-e> :NERDTreeToggle<CR>
+
+" PrevimOpenをprevで開きたい
+noremap :prev :PrevimOpen<CR>
+
 "End mapping-----------------------------------
 
 "color scheme----------------------------------
