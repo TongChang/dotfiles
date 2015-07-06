@@ -14,3 +14,7 @@ set -o vi
 # ・a:隠しファイルも出す
 alias ll='ls -ltrpha'
 
+# history-allを追加
+# ・-E 1 1からヒストリを表示
+alias hall='history -E 1'
+
