@@ -1,0 +1,53 @@
+scriptencoding utf-8
+set encoding=utf-8
+
+" 基本設定
+set number           " 行番号表示
+set nowrap           " 折り返させない
+set cursorline       " カーソル行の色変える
+set cursorcolumn     " カーソル位置の色変える
+set laststatus=2     " ステータス行を常に表示
+set cmdheight=2      " メッセージ表示欄を2行使う
+set showmatch        " 対応するカッコを強調表示
+set helpheight=999   " ヘルプの全画面表示
+set list             " 不可視文字の表示
+set listchars=tab:>- " 不可視文字の表示設定
+
+set shellslash       " Windows でもパスの区切り文字を / に
+set iminsert=2       " インサートモードから戻るとimeはオフる
+
+" カーソル移動系
+set backspace=indent,eol,start " どこまでもBackspaceできる
+set whichwrap=b,s,h,l,<,>,[,]  " 行頭行末の左右移動で行をまたぐ
+set scrolloff=8                " 上下8行の視界を確保
+set sidescrolloff=16           " 左右スクロールじの視界を確保
+set sidescroll=1               " 左右スクロールは1文字づつ
+
+" ファイル処理関連
+set confirm  " 保存されてないファイルがある時は確認
+set hidden   " 保存されてないファイルがあっても別ファイル開ける
+set autoread " ファイルが更新されたら読み直す
+set nobackup " バックアップファイル作らない
+set noswapfile " スワップファイル禁止
+
+" 検索/置換系
+set hlsearch " 検索ハイライト
+set incsearch " インクリメンタルサーチ
+set ignorecase " 大文字小文字を区別しない
+set smartcase " 検索条件に大文字小文字が混在したら、その通り検索する
+set wrapscan  " 最後まで行ったら最初に戻る
+
+" タブ/インデント
+set expandtab " タブ入力を空白で置き換える
+set tabstop=2 " タブ文字の幅
+set shiftwidth=2 " 自動インデント幅
+set autoindent   " インデントの継続
+set smartindent " 次の行のインデントをよしなに
+
+" コマンドラインモード
+set history=10000
+
+" 見た目的なとこ
+set guifont=MIGU_1M:h9
+set guifontwide=MIGU_1M:h9
+
