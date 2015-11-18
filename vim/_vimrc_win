@@ -1,81 +1,223 @@
 scriptencoding utf-8
 set encoding=utf-8
 
- " Note: Skip initialization for vim-tiny or vim-small.
- if 0 | endif
+"NeoBundle Scripts-----------------------------
+if has('vim_starting')
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
 
- if has('vim_starting')
-   if &compatible
-     set nocompatible               " Be iMproved
-   endif
+  " Required:
+  set runtimepath+=./vim74/bundle/neobundle.vim/
+endif
 
-   " Required:
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
- endif
+" Required:
+call neobundle#begin(expand('./vim74/bundle/'))
 
- " Required:
- call neobundle#begin(expand('~/.vim/bundle/'))
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
 
- " Let NeoBundle manage NeoBundle
- " Required:
- NeoBundleFetch 'Shougo/neobundle.vim'
+" Add or remove your Bundles here:
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'ctrlpvim/ctrlp.vim'
+NeoBundle 'flazz/vim-colorschemes'
 
- call neobundle#end()
+" You can specify revision/branch/tag.
+NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 
- " Required:
- filetype plugin indent on
+"NeoBundle追加はここから------------------------------------------------------------
+" ファイルオープンを便利に
+NeoBundle 'Shougo/unite.vim'
 
- " If there are uninstalled bundles found on startup,
- " this will conveniently prompt you to install them.
- NeoBundleCheck
+" Unite.vimで最近使ったファイルを表示できるようにする
+NeoBundle 'Shougo/neomru.vim'
+
+" インデントに色を付けて見やすくする
+NeoBundle 'nathanaelkane/vim-indent-guides'
+
+" ログファイルを色づけしてくれる
+NeoBundle 'vim-scripts/AnsiEsc.vim'
+
+" 行末の半角スペースを可視化
+NeoBundle 'bronson/vim-trailing-whitespace'
+
+" Gitを便利に使う
+NeoBundle 'tpope/vim-fugitive'
+
+" ファイルをtree表示してくれる
+NeoBundle 'scrooloose/nerdtree'
+
+" markdown向けプラグイン
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'kannokanno/previm'
+NeoBundle 'tyru/open-browser.vim'
+
+" nyan-modoki
+NeoBundle 'drillbits/nyan-modoki.vim'
+
+" syntastic
+NeoBundle 'scrooloose/syntastic'
+
+" autoclose
+NeoBundle 'Townk/vim-autoclose'
+
+"NeoBundle追加はここまで------------------------------------------------------------
+
+" Required:
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+"End NeoBundle Scripts-------------------------
+
+" http://blog.remora.cx/2010/12/vim-ref-with-unite.html
+""""""""""""""""""""""""""""""
+" Unit.vimの設定
+""""""""""""""""""""""""""""""
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+""""""""""""""""""""""""""""""
 
 " 基本設定
-set number           " 行番号表示
-set nowrap           " 折り返させない
-set cursorline       " カーソル行の色変える
-set cursorcolumn     " カーソル位置の色変える
-set laststatus=2     " ステータス行を常に表示
-set cmdheight=2      " メッセージ表示欄を2行使う
-set showmatch        " 対応するカッコを強調表示
-set helpheight=999   " ヘルプの全画面表示
-set list             " 不可視文字の表示
-set listchars=tab:>- " 不可視文字の表示設定
-
-set shellslash       " Windows でもパスの区切り文字を / に
-set iminsert=2       " インサートモードから戻るとimeはオフる
+" title表示
+set title
+" 行数表示
+set ruler
+" 補完
+set wildmenu
+" 入力中のコマンドを表示
+set showcmd
+" 行番号表示
+set number
+" 折り返させない
+set nowrap
+" カーソル行の色変える
+set cursorline
+" カーソル位置の色変えない
+set nocursorcolumn
+" ステータス行を常に表示
+set laststatus=2
+" メッセージ表示欄を2行使う
+set cmdheight=2
+" 対応するカッコを強調表示
+set showmatch
+" ヘルプの全画面表示
+set helpheight=999
+" 不可視文字の表示
+set list
+" 不可視文字の表示設定
+set listchars=tab:>-
+" Windows でもパスの区切り文字を / に
+set shellslash
+" インサートモードから戻るとimeはオフる
+set iminsert=0
 
 " カーソル移動系
-set backspace=indent,eol,start " どこまでもBackspaceできる
-set whichwrap=b,s,h,l,<,>,[,]  " 行頭行末の左右移動で行をまたぐ
-set scrolloff=8                " 上下8行の視界を確保
-set sidescrolloff=16           " 左右スクロールじの視界を確保
-set sidescroll=1               " 左右スクロールは1文字づつ
+" どこまでもBackspaceできる
+set backspace=indent,eol,start
+" 行頭行末の左右移動で行をまたぐ
+set whichwrap=b,s,h,l,<,>,[,]
+" 上下8行の視界を確保
+set scrolloff=8
+" 左右スクロールじの視界を確保
+set sidescrolloff=16
+" 左右スクロールは1文字づつ
+set sidescroll=1
 
 " ファイル処理関連
-set confirm  " 保存されてないファイルがある時は確認
-set hidden   " 保存されてないファイルがあっても別ファイル開ける
-set autoread " ファイルが更新されたら読み直す
-set nobackup " バックアップファイル作らない
-set noswapfile " スワップファイル禁止
+" 保存されてないファイルがある時は確認
+set confirm
+" 保存されてないファイルがあっても別ファイル開ける
+set hidden
+" ファイルが更新されたら読み直す
+set autoread
+" バックアップファイル作らない
+set nobackup
+" スワップファイル禁止
+set noswapfile
 
 " 検索/置換系
-set hlsearch " 検索ハイライト
-set incsearch " インクリメンタルサーチ
-set ignorecase " 大文字小文字を区別しない
-set smartcase " 検索条件に大文字小文字が混在したら、その通り検索する
-set wrapscan  " 最後まで行ったら最初に戻る
+" 検索ハイライト
+set hlsearch
+" インクリメンタルサーチ
+set incsearch
+" 大文字小文字を区別しない
+set ignorecase
+" 検索条件に大文字小文字が混在したら、その通り検索する
+set smartcase
+" 最後まで行ったら最初に戻る
+set wrapscan
 
 " タブ/インデント
-set expandtab " タブ入力を空白で置き換える
-set tabstop=2 " タブ文字の幅
-set shiftwidth=2 " 自動インデント幅
-set autoindent   " インデントの継続
-set smartindent " 次の行のインデントをよしなに
+" タブ入力を空白で置き換える
+set expandtab
+" タブ文字の幅
+set tabstop=2
+" 自動インデント幅
+set shiftwidth=2
+" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
+set smarttab
+" インデントの継続
+set autoindent
+" 次の行のインデントをよしなに
+set smartindent
 
 " コマンドラインモード
 set history=10000
 
-" 見た目的なとこ
-set guifont=MIGU_1M:h9
-set guifontwide=MIGU_1M:h9
+" 構文毎に文字色を変化させる
+syntax on
+
+" grep検索の実行後にQuickFix Listを表示する
+autocmd QuickFixCmdPost *grep* cwindow
+
+" ステータス行に現在のgitブランチを表示する
+set statusline+=%{fugitive#statusline()}
+
+" nyan-modoki
+set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
+let g:nyan_modoki_select_cat_face_number = 2
+let g:nayn_modoki_animation_enabled= 1
+
+" 行番号の色
+highlight LineNr term=underline cterm=underline ctermfg=blue ctermbg=black
+
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+let g:indent_guides_enable_on_vim_startup = 1
+
+" PrevimOpen ----------------------------------
+au BufRead,BufNewFile *.md set filetype=markdown
+let g:vim_markdown_folding_disabled=1
+" End PrevimOpen ------------------------------
+
+" mapping -------------------------------------
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-N> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+
+" NERDTreeを<C-e>で開きたい、閉じたい
+noremap <C-e> :NERDTreeToggle<CR>
+
+" PrevimOpenをprevで開きたい
+noremap :prev :PrevimOpen<CR>
+
+"End mapping-----------------------------------
+
+"color scheme----------------------------------
+syntax enable
+set background=dark
+colorscheme solarized
+"End color scheme------------------------------
 
