@@ -2,17 +2,38 @@ scriptencoding utf-8
 set encoding=utf-8
 
 "NeoBundle Scripts-----------------------------
+
+
 if has('vim_starting')
+  " 起動時のみの設定
+  " vi 互換設定
   if &compatible
     set nocompatible               " Be iMproved
   endif
 
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+  " neobundle モジュール読み込み
+  if has('kaoriya')
+    set runtimepath+=./vim74/bundle/neobundle.vim/
+  else
+    set runtimepath+=~/.vim/bundle/neobundle.vim/,
+  endif
+
+  " ステータス行に現在のgitブランチを表示する
+  set statusline+=%{fugitive#statusline()}
+
+  " ステータス行にnyanmodokiを表示する
+  set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
+  let g:nyan_modoki_select_cat_face_number = 2
+  let g:nayn_modoki_animation_enabled = 1
+
 endif
 
 " Required:
-call neobundle#begin(expand('~/.vim/bundle'))
+if has('kaoriya')
+  call neobundle#begin(expand('./vim74/bundle/'))
+else
+  call neobundle#begin(expand('~/.vim/bundle/'))
+endif
 
 " Let NeoBundle manage NeoBundle
 " Required:
@@ -177,14 +198,6 @@ syntax on
 
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
-
-" ステータス行に現在のgitブランチを表示する
-set statusline+=%{fugitive#statusline()}
-
-" nyan-modoki
-set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
-let g:nyan_modoki_select_cat_face_number = 2
-let g:nayn_modoki_animation_enabled= 1
 
 " 行番号の色
 highlight LineNr term=underline cterm=underline ctermfg=blue ctermbg=black
