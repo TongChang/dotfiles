@@ -13,7 +13,7 @@ if has('vim_starting')
 
   " neobundle モジュール読み込み
   if has('kaoriya')
-    set runtimepath+=./vim74/bundle/neobundle.vim/
+    set runtimepath+=$VIM/vim74/bundle/neobundle.vim/
   else
     set runtimepath+=~/.vim/bundle/neobundle.vim/,
   endif
@@ -30,7 +30,7 @@ endif
 
 " Required:
 if has('kaoriya')
-  call neobundle#begin(expand('./vim74/bundle/'))
+  call neobundle#begin(expand('$VIM/vim74/bundle/'))
 else
   call neobundle#begin(expand('~/.vim/bundle/'))
 endif
