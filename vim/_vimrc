@@ -163,6 +163,8 @@ set autoread
 set nobackup
 " スワップファイル禁止
 set noswapfile
+" アンドゥファイル禁止
+set noundofile
 
 " 検索/置換系
 " 検索ハイライト
