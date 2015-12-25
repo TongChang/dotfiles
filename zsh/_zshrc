@@ -1,5 +1,5 @@
 ## .zshrc.path を読み込む
-[ -f ~/.zshrc.path ] && source ~/.zshrc.path # path設定ファイルのinclude]
+[ -f ~/.zshrc.path ] && source ~/.zshrc.path # path設定ファイルのinclude
 
 ## viモードオン
 set -o vi
