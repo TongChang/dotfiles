@@ -94,6 +94,7 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
 " 補完
+" [JavaScript開発環境 - Node.js/JavaScript入門](http://kaworu.jpn.org/javascript/JavaScript%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83)
 NeoBundle 'mattn/jscomplete-vim'
 NeoBundle 'myhere/vim-nodejs-complete'
 
