@@ -304,6 +304,10 @@ imap <C-f> <C-x><C-o>
 "color scheme----------------------------------
 syntax enable
 set background=dark
-colorscheme solarized
+try
+  colorscheme solarized
+catch /^Vim\%((\a\+)\)\=:E185/
+  " nothing
+endtry
 "End color scheme------------------------------
 
