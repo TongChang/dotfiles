@@ -1,119 +1,112 @@
 scriptencoding utf-8
 set encoding=utf-8
 
-"NeoBundle Scripts-----------------------------
+" Vim起動完了時にインストール
+augroup PluginInstall
+  autocmd!
+  autocmd VimEnter * if dein#check_install() | call dein#install() | endif
+augroup END
 
-if has('vim_starting')
-  " 起動時のみの設定
-  " vi 互換設定
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-  " neobundle モジュール読み込み
-  if has('kaoriya')
-    set runtimepath+=$VIM/vim74/bundle/neobundle.vim/
-  else
-    set runtimepath+=~/.vim/bundle/neobundle.vim/,
-  endif
-
-  " ステータス行に現在のgitブランチを表示する
-  set statusline+=%{fugitive#statusline()}
-
-  " ステータス行にnyanmodokiを表示する
-  set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
-  let g:nyan_modoki_select_cat_face_number = 2
-  let g:nayn_modoki_animation_enabled = 1
-
-endif
-
-" Required:
+" kaoriya/その他 でdirを変える
 if has('kaoriya')
-  call neobundle#begin(expand('$VIM/vim74/bundle/'))
+  let s:plugin_dir = expand('$VIM/vim74/bundle')
 else
-  call neobundle#begin(expand('~/.vim/bundle/'))
+  let s:plugin_dir = expand('~/.vim/bundle/')
 endif
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
 
-" Add or remove your Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
+" dein.vimがまだ入ってなければ 最初に`git clone`
+if !isdirectory(s:dein_dir)
+  call mkdir(s:dein_dir, 'p')
+  silent execute printf('!git clone %s %s', 'https://github.com/Shougo/dein.vim', s:dein_dir)
+endif
 
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+" vi 互換設定
+if &compatible
+  set nocompatible               " Be iMproved
+endif
 
-"NeoBundle追加はここから------------------------------------------------------------
+" dein を runtimepath に追加
+execute 'set runtimepath+=' . s:dein_dir
+
+" ステータス行に現在のgitブランチを表示する
+set statusline+=%{fugitive#statusline()}
+
+" ステータス行にnyanmodokiを表示する
+set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
+let g:nyan_modoki_select_cat_face_number = 2
+let g:nayn_modoki_animation_enabled = 1
+
+" plugin
+call dein#begin(s:plugin_dir)
+
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('tpope/vim-fugitive')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('flazz/vim-colorschemes')
+
 " ファイルオープンを便利に
-NeoBundle 'Shougo/unite.vim'
+call dein#add('Shougo/unite.vim')
 
 " Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'Shougo/neomru.vim'
+call dein#add('Shougo/neomru.vim')
 
 " インデントに色を付けて見やすくする
-NeoBundle 'nathanaelkane/vim-indent-guides'
+call dein#add('nathanaelkane/vim-indent-guides')
 
 " ログファイルを色づけしてくれる
-NeoBundle 'vim-scripts/AnsiEsc.vim'
+call dein#add('vim-scripts/AnsiEsc.vim')
 
 " 行末の半角スペースを可視化
-NeoBundle 'bronson/vim-trailing-whitespace'
+call dein#add('bronson/vim-trailing-whitespace')
 
 " Gitを便利に使う
-NeoBundle 'tpope/vim-fugitive'
+call dein#add('tpope/vim-fugitive')
 
 " ファイルをtree表示してくれる
-NeoBundle 'scrooloose/nerdtree'
+call dein#add('scrooloose/nerdtree')
 
 " markdown向けプラグイン
-NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'tyru/open-browser.vim'
+call dein#add('plasticboy/vim-markdown')
+call dein#add('kannokanno/previm')
+call dein#add('tyru/open-browser.vim')
 
 " nyan-modoki
-NeoBundle 'drillbits/nyan-modoki.vim'
+call dein#add('drillbits/nyan-modoki.vim')
 
 " syntastic
-NeoBundle 'scrooloose/syntastic'
+call dein#add('scrooloose/syntastic')
 
 " autoclose
-NeoBundle 'Townk/vim-autoclose'
-NeoBundle 'tpope/vim-endwise'
+call dein#add('Townk/vim-autoclose')
+call dein#add('tpope/vim-endwise')
 
 " .jsxファイルのシンタックス
-NeoBundle 'mxw/vim-jsx'
+call dein#add('mxw/vim-jsx')
 
 " 自動補完
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neocomplcache.viM'
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neocomplcache.viM')
 
 " ========== for javascript ===========
 " syntax
-NeoBundle 'pangloss/vim-javascript'
-NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+call dein#add('pangloss/vim-javascript')
+call dein#add('jelera/vim-javascript-syntax', {'on_ft': 'javascript'})
 
 " 補完
 " [JavaScript開発環境 - Node.js/JavaScript入門](http://kaworu.jpn.org/javascript/JavaScript%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83)
-NeoBundle 'mattn/jscomplete-vim'
-NeoBundle 'myhere/vim-nodejs-complete'
+call dein#add('mattn/jscomplete-vim')
+call dein#add('myhere/vim-nodejs-complete')
 
-"NeoBundle追加はここまで------------------------------------------------------------
+"------------------------------------------------------------
 
 " Required:
-call neobundle#end()
+call dein#end()
 
 " Required:
 filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
 
 " http://blog.remora.cx/2010/12/vim-ref-with-unite.html
 """"""""""""""""""""""""""""""
