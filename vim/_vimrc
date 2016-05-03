@@ -3,7 +3,6 @@ set encoding=utf-8
 
 "NeoBundle Scripts-----------------------------
 
-
 if has('vim_starting')
   " 起動時のみの設定
   " vi 互換設定
@@ -84,8 +83,12 @@ NeoBundle 'scrooloose/syntastic'
 
 " autoclose
 NeoBundle 'Townk/vim-autoclose'
+NeoBundle 'tpope/vim-endwise'
 
-" 補完
+" .jsxファイルのシンタックス
+NeoBundle 'mxw/vim-jsx'
+
+" 自動補完
 NeoBundle 'Shougo/neocomplete.vim'
 
 " ========== for javascript ===========
@@ -119,6 +122,44 @@ NeoBundleCheck
 let g:unite_enable_start_insert=1
 """"""""""""""""""""""""""""""
 
+" http://totutotu.hatenablog.com/entry/2015/03/19/Vim%E3%81%A7%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E3%81%A7%E3%81%8D%E3%82%8B%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3neocomplcache%E3%82%92%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB
+""""""""""""""""""""""""""""""
+" neocomplecacheの設定
+""""""""""""""""""""""""""""""
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+      \ 'default' : ''
+      \ }
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplcache#smart_close_popup() . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()""
+""""""""""""""""""""""""""""""""
+
 """"""""""""""""""""""""""""""
 " vim-javascript-syntaxの設定
 """"""""""""""""""""""""""""""
@@ -147,94 +188,59 @@ let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
 
 let g:node_usejscomplete = 1
 
+"""""""""""""""""""""""""""""""" 
 " 基本設定
-" title表示
-set title
-" 行数表示
-set ruler
-" 補完
-set wildmenu
-" 入力中のコマンドを表示
-set showcmd
-" 行番号表示
-set number
-" 折り返させない
-set nowrap
-" カーソル行の色変える
-set cursorline
-" カーソル位置の色変えない
-set nocursorcolumn
-" ステータス行を常に表示
-set laststatus=2
-" メッセージ表示欄を2行使う
-set cmdheight=2
-" 対応するカッコを強調表示
-set showmatch
-" ヘルプの全画面表示
-set helpheight=999
-" 不可視文字の表示
-set list
-" 不可視文字の表示設定
-set listchars=tab:>-
-" Windows でもパスの区切り文字を / に
-set shellslash
-" インサートモードから戻るとimeはオフる
-set iminsert=0
+set title            " title表示
+set ruler            " 行数表示
+set wildmenu         " 補完
+set showcmd          " 入力中のコマンドを表示
+set number           " 行番号表示
+set nowrap           " 折り返させない
+set cursorline       " カーソル行の色変える
+set nocursorcolumn   " カーソル位置の色変えない
+set laststatus=2     " ステータス行を常に表示
+set cmdheight=2      " メッセージ表示欄を2行使う
+set showmatch        " 対応するカッコを強調表示
+set helpheight=999   " ヘルプの全画面表示
+set list             " 不可視文字の表示
+set listchars=tab:>- " 不可視文字の表示設定
 
-" カーソル移動系
-" どこまでもBackspaceできる
-set backspace=indent,eol,start
-" 行頭行末の左右移動で行をまたぐ
-set whichwrap=b,s,h,l,<,>,[,]
-" 上下8行の視界を確保
-set scrolloff=8
-" 左右スクロールじの視界を確保
-set sidescrolloff=16
-" 左右スクロールは1文字づつ
-set sidescroll=1
+set shellslash       " Windows でもパスの区切り文字を / に
+set iminsert=0       " インサートモードから戻るとimeはオフる
+
+ " カーソル移動系
+set backspace=indent,eol,start " どこまでもBackspaceできる
+set whichwrap=b,s,h,l,<,>,[,]  " 行頭行末の左右移動で行をまたぐ
+set scrolloff=8                " 上下8行の視界を確保
+set sidescrolloff=16           " 左右スクロールじの視界を確保
+set sidescroll=1               " 左右スクロールは1文字づつ
 
 " ファイル処理関連
-" 保存されてないファイルがある時は確認
-set confirm
-" 保存されてないファイルがあっても別ファイル開ける
-set hidden
-" ファイルが更新されたら読み直す
-set autoread
-" バックアップファイル作らない
-set nobackup
-" スワップファイル禁止
-set noswapfile
-" アンドゥファイル禁止
-set noundofile
+set confirm    " 保存されてないファイルがある時は確認
+set hidden     " 保存されてないファイルがあっても別ファイル開ける
+set autoread   " ファイルが更新されたら読み直す
+set nobackup   " バックアップファイル作らない
+set noswapfile " スワップファイル禁止
+set noundofile " アンドゥファイル禁止
 
 " 検索/置換系
-" 検索ハイライト
-set hlsearch
-" インクリメンタルサーチ
-set incsearch
-" 大文字小文字を区別しない
-set ignorecase
-" 検索条件に大文字小文字が混在したら、その通り検索する
-set smartcase
-" 最後まで行ったら最初に戻る
-set wrapscan
+set hlsearch   " 検索ハイライト
+set incsearch  " インクリメンタルサーチ
+set ignorecase " 大文字小文字を区別しない
+set smartcase  " 検索条件に大文字小文字が混在したら、その通り検索する
+set wrapscan   " 最後まで行ったら最初に戻る
 
 " タブ/インデント
-" タブ入力を空白で置き換える
-set expandtab
-" タブ文字の幅
-set tabstop=2
-" 自動インデント幅
-set shiftwidth=2
-" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
-set smarttab
-" インデントの継続
-set autoindent
-" 次の行のインデントをよしなに
-set smartindent
+set expandtab    " タブ入力を空白で置き換える
+set tabstop=2    " タブ文字の幅
+set shiftwidth=2 " 自動インデント幅
+set smarttab     " 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする
+set autoindent   " インデントの継続
+set smartindent  " 次の行のインデントをよしなに
 
 " コマンドラインモード
 set history=10000
+""""""""""""""""""""""""""""""""
 
 " 構文毎に文字色を変化させる
 syntax on
