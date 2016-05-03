@@ -1,15 +1,38 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 "NeoBundle Scripts-----------------------------
+
 if has('vim_starting')
+  " 起動時のみの設定
+  " vi 互換設定
   if &compatible
     set nocompatible               " Be iMproved
   endif
 
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
+  " neobundle モジュール読み込み
+  if has('kaoriya')
+    set runtimepath+=$VIM/vim74/bundle/neobundle.vim/
+  else
+    set runtimepath+=~/.vim/bundle/neobundle.vim/,
+  endif
+
+  " ステータス行に現在のgitブランチを表示する
+  set statusline+=%{fugitive#statusline()}
+
+  " ステータス行にnyanmodokiを表示する
+  set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
+  let g:nyan_modoki_select_cat_face_number = 2
+  let g:nayn_modoki_animation_enabled = 1
+
 endif
 
 " Required:
-call neobundle#begin(expand('~/.vim/bundle'))
+if has('kaoriya')
+  call neobundle#begin(expand('$VIM/vim74/bundle/'))
+else
+  call neobundle#begin(expand('~/.vim/bundle/'))
+endif
 
 " Let NeoBundle manage NeoBundle
 " Required:
@@ -67,6 +90,16 @@ NeoBundle 'mxw/vim-jsx'
 
 " 自動補完
 NeoBundle 'Shougo/neocomplcache'
+
+" ========== for javascript ===========
+" syntax
+NeoBundle 'pangloss/vim-javascript'
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+
+" 補完
+" [JavaScript開発環境 - Node.js/JavaScript入門](http://kaworu.jpn.org/javascript/JavaScript%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83)
+NeoBundle 'mattn/jscomplete-vim'
+NeoBundle 'myhere/vim-nodejs-complete'
 
 "NeoBundle追加はここまで------------------------------------------------------------
 
@@ -127,8 +160,40 @@ inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()""
 """"""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""
+" vim-javascript-syntaxの設定
+""""""""""""""""""""""""""""""
+au FileType javascript call JavaScriptFold()
+
+""""""""""""""""""""""""""""""
+" vim-javascriptの設定
+""""""""""""""""""""""""""""""
+:set regexpengine=1
+:syntax enable
+
+""""""""""""""""""""""""""""""
+" jslintの設定
+" [vim で JavaScript の syntax check をする - すぱぶろ](http://superbrothers.hatenablog.com/entry/2012/03/04/155645)
+""""""""""""""""""""""""""""""
+let g:syntastic_javascript_jslint_conf = "--white --undef --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars"
+
+""""""""""""""""""""""""""""""
+" vim-nodejs-completeの設定
+""""""""""""""""""""""""""""""
+autocmd FileType javascript setlocal omnifunc=nodejscomplete#CompleteJS
+if !exists('g:neocomplcache_omni_functions')
+  let g:neocomplcache_omni_functions = {}
+endif
+let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
+
+let g:node_usejscomplete = 1
+
 """"""""""""""""""""""""""""""""
 " 基本設定
+set title            " title表示
+set ruler            " 行数表示
+set wildmenu         " 補完
+set showcmd          " 入力中のコマンドを表示
 set number           " 行番号表示
 set nowrap           " 折り返させない
 set cursorline       " カーソル行の色変える
@@ -151,25 +216,26 @@ set sidescrolloff=16           " 左右スクロールじの視界を確保
 set sidescroll=1               " 左右スクロールは1文字づつ
 
 " ファイル処理関連
-set confirm  " 保存されてないファイルがある時は確認
-set hidden   " 保存されてないファイルがあっても別ファイル開ける
-set autoread " ファイルが更新されたら読み直す
-set nobackup " バックアップファイル作らない
+set confirm    " 保存されてないファイルがある時は確認
+set hidden     " 保存されてないファイルがあっても別ファイル開ける
+set autoread   " ファイルが更新されたら読み直す
+set nobackup   " バックアップファイル作らない
 set noswapfile " スワップファイル禁止
+set noundofile " アンドゥファイル禁止
 
 " 検索/置換系
-set hlsearch " 検索ハイライト
-set incsearch " インクリメンタルサーチ
+set hlsearch   " 検索ハイライト
+set incsearch  " インクリメンタルサーチ
 set ignorecase " 大文字小文字を区別しない
-set smartcase " 検索条件に大文字小文字が混在したら、その通り検索する
-set wrapscan  " 最後まで行ったら最初に戻る
+set smartcase  " 検索条件に大文字小文字が混在したら、その通り検索する
+set wrapscan   " 最後まで行ったら最初に戻る
 
 " タブ/インデント
-set expandtab " タブ入力を空白で置き換える
-set tabstop=2 " タブ文字の幅
+set expandtab    " タブ入力を空白で置き換える
+set tabstop=2    " タブ文字の幅
 set shiftwidth=2 " 自動インデント幅
 set autoindent   " インデントの継続
-set smartindent " 次の行のインデントをよしなに
+set smartindent  " 次の行のインデントをよしなに
 
 " コマンドラインモード
 set history=10000
@@ -180,14 +246,6 @@ syntax on
 
 " grep検索の実行後にQuickFix Listを表示する
 autocmd QuickFixCmdPost *grep* cwindow
-
-" ステータス行に現在のgitブランチを表示する
-set statusline+=%{fugitive#statusline()} 
-
-" nyan-modoki
-set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
-let g:nyan_modoki_select_cat_face_number = 2
-let g:nayn_modoki_animation_enabled= 1
 
 " 行番号の色
 highlight LineNr term=underline cterm=underline ctermfg=blue ctermbg=black
@@ -216,6 +274,8 @@ noremap <C-e> :NERDTreeToggle<CR>
 " PrevimOpenをprevで開きたい
 noremap :prev :PrevimOpen<CR>
 
+" <C-f>で補完
+imap <C-f> <C-x><C-o>
 "End mapping-----------------------------------
 
 "color scheme----------------------------------
