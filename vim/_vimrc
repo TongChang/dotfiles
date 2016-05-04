@@ -100,6 +100,14 @@ call dein#add('jelera/vim-javascript-syntax', {'on_ft': 'javascript'})
 call dein#add('mattn/jscomplete-vim')
 call dein#add('myhere/vim-nodejs-complete')
 
+" ========== for vagrant =================
+" vim上でvagrantコマンドを実行
+call dein#add('hashivim/vim-vagrant')
+
+" ========== for yaml =================
+" yamlのシンタックス
+call dein#add('stephpy/vim-yaml')
+
 "------------------------------------------------------------
 
 " Required:
