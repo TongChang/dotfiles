@@ -218,7 +218,7 @@ let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
 
 let g:node_usejscomplete = 1
 
-"""""""""""""""""""""""""""""""" 
+""""""""""""""""""""""""""""""""
 " 基本設定
 set title            " title表示
 set ruler            " 行数表示
@@ -234,6 +234,7 @@ set showmatch        " 対応するカッコを強調表示
 set helpheight=999   " ヘルプの全画面表示
 set list             " 不可視文字の表示
 set listchars=tab:>- " 不可視文字の表示設定
+set modeline         " モードライン有効する(http://nanasi.jp/articles/howto/file/modeline.html)
 
 set shellslash       " Windows でもパスの区切り文字を / に
 set iminsert=0       " インサートモードから戻るとimeはオフる
