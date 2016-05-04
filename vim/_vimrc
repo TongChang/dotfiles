@@ -104,9 +104,9 @@ call dein#add('myhere/vim-nodejs-complete')
 " vim上でvagrantコマンドを実行
 call dein#add('hashivim/vim-vagrant')
 
-" ========== for yaml =================
-" yamlのシンタックス
-call dein#add('stephpy/vim-yaml')
+" ========== for ansible =================
+" ansible-yamlのシンタックス
+call dein#add('chase/vim-ansible-yaml')
 
 "------------------------------------------------------------
 
