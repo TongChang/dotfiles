@@ -99,6 +99,14 @@ call dein#add('jelera/vim-javascript-syntax', {'on_ft': 'javascript'})
 call dein#add('mattn/jscomplete-vim')
 call dein#add('myhere/vim-nodejs-complete')
 
+" ========== for vagrant =================
+" vim上でvagrantコマンドを実行
+call dein#add('hashivim/vim-vagrant', {'on_ft': 'vagrant'})
+
+" ========== for ansible =================
+" ansible-yamlのシンタックス
+call dein#add('chase/vim-ansible-yaml', {'on_ft': 'yaml'})
+
 " ========== for node.js ===========
 call dein#add('thinca/vim-quickrun')
 
@@ -316,6 +324,10 @@ endif
 "color scheme----------------------------------
 syntax enable
 set background=dark
-colorscheme solarized
+try		 +colorscheme solarized
+  colorscheme solarized
+catch /^Vim\%((\a\+)\)\=:E185/
+  " nothing
+endtry
 "End color scheme------------------------------
 
