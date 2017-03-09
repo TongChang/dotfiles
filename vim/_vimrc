@@ -186,6 +186,12 @@ endif
 """"""""""""""""""""""""""""""
 " vim-javascript-syntaxの設定
 """"""""""""""""""""""""""""""
+function! JavaScriptFold()
+  set foldmethod=marker
+  set foldmarker={,}
+  set foldtext=getline(v:foldstart)
+endfunction
+
 au FileType javascript call JavaScriptFold()
 
 """"""""""""""""""""""""""""""
@@ -198,6 +204,7 @@ au FileType javascript call JavaScriptFold()
 " jslintの設定
 " [vim で JavaScript の syntax check をする - すぱぶろ](http://superbrothers.hatenablog.com/entry/2012/03/04/155645)
 """"""""""""""""""""""""""""""
+let g:syntastic_javascript_checkers=["eslint"]
 let g:syntastic_javascript_jslint_conf = "--white --undef --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars"
 
 """"""""""""""""""""""""""""""
@@ -325,7 +332,7 @@ endif
 "color scheme----------------------------------
 syntax enable
 set background=dark
-try		 +colorscheme solarized
+try
   colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/
   " nothing
