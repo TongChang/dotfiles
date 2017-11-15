@@ -1,17 +1,16 @@
 scriptencoding utf-8
 set encoding=utf-8
 
-" Vim起動完了時にインストール
-augroup PluginInstall
+" reset augroup
+augroup MyAutoCmd
   autocmd!
-  autocmd VimEnter * if dein#check_install() | call dein#install() | endif
 augroup END
 
 " kaoriya/その他 でdirを変える
 if has('kaoriya')
   let s:plugin_dir = expand('$VIM/vim74/bundle')
 else
-  let s:plugin_dir = expand('~/.vim/bundle/')
+  let s:plugin_dir = expand('~/.cache/dein/')
 endif
 
 let s:dein_dir = s:plugin_dir . 'repos/github.com/Shougo/dein.vim'
@@ -39,84 +38,93 @@ let g:nyan_modoki_select_cat_face_number = 2
 let g:nayn_modoki_animation_enabled = 1
 
 " plugin
-call dein#begin(s:plugin_dir)
+if dein#load_state(s:plugin_dir)
+  call dein#begin(s:plugin_dir)
 
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('tpope/vim-fugitive')
-call dein#add('flazz/vim-colorschemes')
 
-" ファイルオープンを便利に
-call dein#add('Shougo/unite.vim')
+  call dein#add(s:plugin_dir)
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('flazz/vim-colorschemes')
 
-" Unite.vimで最近使ったファイルを表示できるようにする
-call dein#add('Shougo/neomru.vim')
+  " ファイルオープンを便利に
+  call dein#add('Shougo/unite.vim')
 
-" インデントに色を付けて見やすくする
-call dein#add('nathanaelkane/vim-indent-guides')
+  " Unite.vimで最近使ったファイルを表示できるようにする
+  call dein#add('Shougo/neomru.vim')
 
-" ログファイルを色づけしてくれる
-call dein#add('vim-scripts/AnsiEsc.vim')
+  " インデントに色を付けて見やすくする
+  call dein#add('nathanaelkane/vim-indent-guides')
 
-" 行末の半角スペースを可視化
-call dein#add('bronson/vim-trailing-whitespace')
+  " ログファイルを色づけしてくれる
+  call dein#add('vim-scripts/AnsiEsc.vim')
 
-" Gitを便利に使う
-call dein#add('tpope/vim-fugitive')
+  " 行末の半角スペースを可視化
+  call dein#add('bronson/vim-trailing-whitespace')
 
-" ファイルをtree表示してくれる
-call dein#add('scrooloose/nerdtree')
+  " Gitを便利に使う
+  call dein#add('tpope/vim-fugitive')
 
-" markdown向けプラグイン
-call dein#add('plasticboy/vim-markdown')
-call dein#add('kannokanno/previm')
-call dein#add('tyru/open-browser.vim')
+  " ファイルをtree表示してくれる
+  call dein#add('scrooloose/nerdtree')
 
-" nyan-modoki
-call dein#add('drillbits/nyan-modoki.vim')
+  " markdown向けプラグイン
+  call dein#add('plasticboy/vim-markdown')
+  call dein#add('kannokanno/previm')
+  call dein#add('tyru/open-browser.vim')
 
-" syntastic
-call dein#add('scrooloose/syntastic')
+  " nyan-modoki
+  call dein#add('drillbits/nyan-modoki.vim')
 
-" autoclose
-call dein#add('Townk/vim-autoclose')
-call dein#add('tpope/vim-endwise')
+  " syntastic
+  call dein#add('scrooloose/syntastic')
 
-" .jsxファイルのシンタックス
-call dein#add('mxw/vim-jsx')
+  " autoclose
+  call dein#add('Townk/vim-autoclose')
+  call dein#add('tpope/vim-endwise')
 
-" 自動補完
-call dein#add('Shougo/neocomplete.vim')
+  " .jsxファイルのシンタックス
+  call dein#add('mxw/vim-jsx')
 
-" ========== for javascript ===========
-" syntax
-call dein#add('pangloss/vim-javascript')
-call dein#add('jelera/vim-javascript-syntax', {'on_ft': 'javascript'})
+  " 自動補完
+  call dein#add('Shougo/neocomplete.vim')
 
-" 補完
-" [JavaScript開発環境 - Node.js/JavaScript入門](http://kaworu.jpn.org/javascript/JavaScript%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83)
-call dein#add('mattn/jscomplete-vim')
-call dein#add('myhere/vim-nodejs-complete')
+  " ========== for javascript ===========
+  " syntax
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('jelera/vim-javascript-syntax', {'on_ft': 'javascript'})
 
-" ========== for vagrant =================
-" vim上でvagrantコマンドを実行
-call dein#add('hashivim/vim-vagrant', {'on_ft': 'vagrant'})
+  " 補完
+  " [JavaScript開発環境 - Node.js/JavaScript入門](http://kaworu.jpn.org/javascript/JavaScript%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83)
+  call dein#add('mattn/jscomplete-vim')
+  call dein#add('myhere/vim-nodejs-complete')
 
-" ========== for ansible =================
-" ansible-yamlのシンタックス
-call dein#add('chase/vim-ansible-yaml', {'on_ft': 'yaml'})
+  " ========== for vagrant =================
+  " vim上でvagrantコマンドを実行
+  call dein#add('hashivim/vim-vagrant', {'on_ft': 'vagrant'})
 
-" ========== for node.js ===========
-call dein#add('thinca/vim-quickrun')
+  " ========== for ansible =================
+  " ansible-yamlのシンタックス
+  call dein#add('chase/vim-ansible-yaml', {'on_ft': 'yaml'})
 
-" ========== for html ===========
-call dein#add('tpope/vim-surround')
-call dein#add('mattn/emmet-vim', {'on_ft': 'html'})
+  " ========== for node.js ===========
+  call dein#add('thinca/vim-quickrun')
 
-"------------------------------------------------------------
+  " ========== for html ===========
+  call dein#add('tpope/vim-surround')
+  call dein#add('mattn/emmet-vim', {'on_ft': 'html'})
 
-" Required:
-call dein#end()
+  "------------------------------------------------------------
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+if has('vim_starting') && dein#check_install()
+  call dein#install()
+endif
 
 " Required:
 filetype plugin indent on
