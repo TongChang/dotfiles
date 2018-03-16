@@ -29,14 +29,6 @@ endif
 " dein を runtimepath に追加
 execute 'set runtimepath+=' . s:dein_dir
 
-" ステータス行に現在のgitブランチを表示する
-set statusline+=%{fugitive#statusline()}
-
-" ステータス行にnyanmodokiを表示する
-set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
-let g:nyan_modoki_select_cat_face_number = 2
-let g:nayn_modoki_animation_enabled = 1
-
 " plugin
 if dein#load_state(s:plugin_dir)
   call dein#begin(s:plugin_dir)
@@ -125,6 +117,14 @@ endif
 if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
+
+" ステータス行に現在のgitブランチを表示する
+set statusline+=%{fugitive#statusline()}
+
+" ステータス行にnyanmodokiを表示する
+set statusline+=%F%m%r%h%w[%{&ff}]%=%{g:NyanModoki()}(%l,%c)[%P]
+let g:nyan_modoki_select_cat_face_number = 2
+let g:nayn_modoki_animation_enabled = 1
 
 " Required:
 filetype plugin indent on
